@@ -39,7 +39,9 @@ export default function DashboardTemplate({
           id=""
         />
       </aside>
-      <main className="flex-1 flex flex-col bg-white p-8">{children}</main>
+      <main className="flex-1 flex flex-col bg-white p-8 text-black">
+        {children}
+      </main>
     </div>
   );
 }
