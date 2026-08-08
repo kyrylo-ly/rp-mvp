@@ -45,6 +45,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Base nav item - used by simple sidebars
 type NavItem = {
@@ -217,7 +218,7 @@ const NavDropdown = ({ group }: { group: NavGroup }) => {
             <React.Fragment key={item.label}>
               <DropdownMenuItem
                 render={
-                  <a href={item.href} className="flex items-center gap-2" />
+                  <Link href={item.href} className="flex items-center gap-2" />
                 }
               >
                 <Icon className="size-4" />
@@ -230,7 +231,7 @@ const NavDropdown = ({ group }: { group: NavGroup }) => {
                     key={child.label}
                     className="pl-6"
                     render={
-                      <a
+                      <Link
                         href={child.href}
                         className="flex items-center gap-2"
                       />
@@ -283,7 +284,7 @@ const MobileNav = () => {
                     const Icon = item.icon;
                     return (
                       <React.Fragment key={item.label}>
-                        <a
+                        <Link
                           href={item.href}
                           className={cn(
                             "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted",
@@ -292,18 +293,18 @@ const MobileNav = () => {
                         >
                           <Icon className="size-4" />
                           {item.label}
-                        </a>
+                        </Link>
                         {item.children?.map((child) => {
                           const ChildIcon = child.icon;
                           return (
-                            <a
+                            <Link
                               key={child.label}
                               href={child.href}
                               className="flex items-center gap-2 rounded-md py-1.5 pr-2 pl-8 text-sm hover:bg-muted"
                             >
                               <ChildIcon className="size-4" />
                               {child.label}
-                            </a>
+                            </Link>
                           );
                         })}
                       </React.Fragment>
@@ -321,14 +322,14 @@ const MobileNav = () => {
                 {sidebarData.footerGroup.items.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <a
+                    <Link
                       key={item.label}
                       href={item.href}
                       className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted"
                     >
                       <Icon className="size-4" />
                       {item.label}
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
@@ -391,7 +392,7 @@ export function Header() {
         <MobileNav />
 
         {/* Logo */}
-        <a href="#" className="flex items-center gap-2">
+        <Link href="#" className="flex items-center gap-2">
           <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-primary">
             <img
               src={sidebarData.logo.src}
@@ -400,7 +401,7 @@ export function Header() {
             />
           </div>
           <span className="font-semibold">{sidebarData.logo.title}</span>
-        </a>
+        </Link>
 
         {/* Desktop navigation */}
         <nav className="ml-4 hidden items-center gap-1 md:flex">
