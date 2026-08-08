@@ -1,9 +1,11 @@
 "use server";
 
+import "server-only";
+
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/lib/auth";
+import { auth } from "@/server/auth";
 
 const LOGIN_ERROR_FALLBACK = "Invalid email or password";
 const SIGNUP_ERROR_FALLBACK = "Unable to create account";

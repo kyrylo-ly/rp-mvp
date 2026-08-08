@@ -283,7 +283,7 @@ function AccountMenu({ account }: { account: AccountData }) {
 
 export function Header() {
   const pathname = usePathname();
-  const showAccount = pathname !== "/login";
+  const showAccount = pathname !== "/login" && pathname !== "/signup";
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background">

@@ -1,12 +1,6 @@
-import { Login } from "@/components/login";
-import { loginWithEmailAction } from "@/app/auth-actions";
-
-const logo = {
-  url: "https://www.shadcnblocks.com",
-  src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-wordmark.svg",
-  alt: "logo",
-  title: "shadcnblocks.com",
-};
+import { authPageLogo } from "@/features/auth/config";
+import { loginWithEmailAction } from "@/features/auth/server/actions";
+import { AuthForm } from "@/features/auth/ui/auth-form";
 
 type LoginPageProps = {
   searchParams?: Promise<{
@@ -19,8 +13,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const errorMessage = params?.error;
 
   return (
-    <Login
-      logo={logo}
+    <AuthForm
+      logo={authPageLogo}
       formAction={loginWithEmailAction}
       errorMessage={errorMessage}
       signupUrl="/signup"

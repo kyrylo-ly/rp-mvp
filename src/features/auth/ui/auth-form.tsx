@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-interface LoginProps {
+interface AuthFormProps {
   mode?: "login" | "signup";
   heading?: string;
   logo: {
@@ -22,7 +22,7 @@ interface LoginProps {
   className?: string;
 }
 
-const Login = ({
+const AuthForm = ({
   mode = "login",
   heading = "Login",
   logo = {
@@ -37,7 +37,7 @@ const Login = ({
   errorMessage,
   formAction,
   className,
-}: LoginProps) => {
+}: AuthFormProps) => {
   const isSignup = mode === "signup";
 
   return (
@@ -117,4 +117,4 @@ const Login = ({
   );
 };
 
-export { Login };
+export { AuthForm };
