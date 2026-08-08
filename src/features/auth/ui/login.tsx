@@ -1,13 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { loginWithEmailAction } from "../server/actions";
 
-interface AuthFormProps {
-  mode?: "login" | "signup";
+interface LoginProps {
   heading?: string;
-  logo: {
+  logo?: {
     url: string;
     src: string;
     alt: string;
@@ -15,15 +13,14 @@ interface AuthFormProps {
     className?: string;
   };
   buttonText?: string;
+  googleText?: string;
   signupText?: string;
   signupUrl?: string;
-  errorMessage?: string;
-  formAction: (formData: FormData) => Promise<void>;
   className?: string;
+  errorMessage?: string;
 }
 
-const AuthForm = ({
-  mode = "login",
+const Login = ({
   heading = "Login",
   logo = {
     url: "https://www.shadcnblocks.com",
@@ -34,82 +31,58 @@ const AuthForm = ({
   buttonText = "Login",
   signupText = "Need an account?",
   signupUrl = "/signup",
-  errorMessage,
-  formAction,
   className,
-}: AuthFormProps) => {
-  const isSignup = mode === "signup";
-
+  errorMessage,
+}: LoginProps) => {
   return (
     <section className={cn("h-screen bg-muted", className)}>
       <div className="flex h-full items-center justify-center">
+        {/* Logo */}
         <div className="flex flex-col items-center gap-6 lg:justify-start">
-          {/* Logo */}
-          <Link href={logo.url}>
+          <a href={logo.url}>
             <img
               src={logo.src}
               alt={logo.alt}
               title={logo.title}
               className="h-10 dark:invert"
             />
-          </Link>
+          </a>
           <form
-            action={formAction}
+            action={loginWithEmailAction}
             className="flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border border-muted bg-background px-6 py-8 shadow-md"
           >
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
-            {errorMessage ? (
+            {errorMessage && (
               <p className="w-full rounded-md border border-destructive/30 bg-destructive/10 p-2 text-sm text-destructive">
                 {errorMessage}
               </p>
-            ) : null}
-            {isSignup ? (
-              <div className="flex w-full flex-col gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Name"
-                  className="text-sm"
-                  required
-                />
-              </div>
-            ) : null}
-            <div className="flex w-full flex-col gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                className="text-sm"
-                required
-              />
-            </div>
-            <div className="flex w-full flex-col gap-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Password"
-                className="text-sm"
-                required
-              />
-            </div>
+            )}
+            <Input
+              name="email"
+              type="email"
+              placeholder="Email"
+              className="text-sm"
+              required
+            />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className="text-sm"
+              required
+            />
             <Button type="submit" className="w-full">
               {buttonText}
             </Button>
           </form>
           <div className="flex justify-center gap-1 text-sm text-muted-foreground">
             <p>{signupText}</p>
-            <Link
+            <a
               href={signupUrl}
               className="font-medium text-primary hover:underline"
             >
               Sign up
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -117,4 +90,4 @@ const AuthForm = ({
   );
 };
 
-export { AuthForm };
+export { Login };

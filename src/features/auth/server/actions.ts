@@ -61,9 +61,14 @@ export async function signupWithEmailAction(formData: FormData) {
   const name = readRequiredFormValue(formData, "name");
   const email = readRequiredFormValue(formData, "email");
   const password = readRequiredFormValue(formData, "password");
+  const confirmPassword = readRequiredFormValue(formData, "confirm");
 
-  if (!name || !email || !password) {
+  if (!name || !email || !password || !confirmPassword) {
     redirect("/signup?error=Name%2C%20email%20and%20password%20are%20required");
+  }
+
+  if (password !== confirmPassword) {
+    redirect("/signup?error=Passwords should be the same");
   }
 
   try {
