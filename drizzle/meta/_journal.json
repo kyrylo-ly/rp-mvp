@@ -8,6 +8,13 @@
       "when": 1786201367823,
       "tag": "0000_fancy_magus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1786211981008,
+      "tag": "0001_modern_richard_fisk",
+      "breakpoints": true
     }
   ]
 }
