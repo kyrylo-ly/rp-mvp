@@ -85,13 +85,6 @@ const appLogo = {
   title: "Razom Pay",
 };
 
-const demoAccount: AccountData = {
-  name: "John Doe",
-  email: "john@example.com",
-  avatar:
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
-};
-
 function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -288,9 +281,8 @@ function AccountMenu({ account }: { account: AccountData }) {
   );
 }
 
-export function Header() {
+export function Header(accountData: AccountData) {
   const pathname = usePathname();
-  const showAccount = pathname !== "/login" && pathname !== "/signup";
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background">
@@ -326,8 +318,8 @@ export function Header() {
           <Button variant="ghost" size="icon" className="md:hidden">
             <Search className="size-5" />
           </Button>
-          {showAccount ? (
-            <AccountMenu account={demoAccount} />
+          {accountData.name ? (
+            <AccountMenu account={accountData} />
           ) : (
             <Button
               render={<Link href="/login" className="flex items-center" />}
