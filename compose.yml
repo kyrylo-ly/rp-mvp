@@ -1,6 +1,7 @@
 services:
   postgres:
-    image: postgres:18-alpine
+    image: postgis/postgis:18-3.6
+    platform: linux/amd64
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
