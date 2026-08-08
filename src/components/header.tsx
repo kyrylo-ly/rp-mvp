@@ -1,27 +1,19 @@
 "use client";
 
 import {
-  BadgeCheck,
-  BarChart3,
   Briefcase,
   ChevronDown,
   ChevronsUpDown,
   ClipboardList,
-  Clock3,
-  FileText,
-  Folder,
   Globe2,
-  HelpCircle,
-  LayoutDashboard,
   LogOut,
   Menu,
   Search,
   Settings,
-  Sparkles,
-  Star,
   User,
-  Users,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -45,213 +37,120 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
-// Base nav item - used by simple sidebars
 type NavItem = {
   label: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   href: string;
-  isActive?: boolean;
-  // Optional children for submenus (Sidebar3+)
   children?: NavItem[];
 };
 
-// Nav group with optional collapsible state
-type NavGroup = {
-  title: string;
-  items: NavItem[];
-  // Optional: default collapsed state (Sidebar2+)
-  defaultOpen?: boolean;
+type AccountItem = {
+  label: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  href: string;
 };
 
-// User data for footer (Sidebar6+)
-type UserData = {
+type AccountData = {
   name: string;
   email: string;
   avatar: string;
 };
 
-// Complete sidebar data structure
-type SidebarData = {
-  // Logo/branding (all sidebars)
-  logo: {
-    src: string;
-    alt: string;
-    title: string;
-    description: string;
-  };
-  // Main navigation groups (all sidebars)
-  navGroups: NavGroup[];
-  // Footer navigation group (all sidebars)
-  footerGroup: NavGroup;
-  // User data for user footer (Sidebar6+)
-  user?: UserData;
-  // Workspaces for switcher (Sidebar7+)
-  workspaces?: Array<{
-    id: string;
-    name: string;
-    logo: string;
-    plan: string;
-  }>;
-  // Currently active workspace (Sidebar7+)
-  activeWorkspace?: string;
+const mainNav: NavItem[] = [
+  { label: "Communities", icon: Globe2, href: "/communities" },
+  {
+    label: "Initiatives",
+    icon: ClipboardList,
+    href: "/initiatives",
+  },
+  // { label: "Users", icon: Users, href: "/users" },
+  { label: "Offers", icon: Briefcase, href: "/offers" },
+  // { label: "Suppliers", icon: Truck, href: "/suppliers" },
+];
+
+const accountItems: AccountItem[] = [
+  // { label: "Communities", icon: Globe2, href: "/communities" },
+  // { label: "Initiatives", icon: ClipboardList, href: "/initiatives" },
+  // { label: "Contributions", icon: FileText, href: "/contributions" },
+  // { label: "Offers", icon: Briefcase, href: "/offers" },
+  { label: "Account", icon: User, href: "/account" },
+  { label: "Settings", icon: Settings, href: "/settings" },
+  { label: "Log out", icon: LogOut, href: "/login" },
+];
+
+const appLogo = {
+  src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
+  alt: "Razom Pay",
+  title: "Razom Pay",
 };
 
-// Shared sidebar data - works with all sidebar variations
-const sidebarData: SidebarData = {
-  logo: {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
-    alt: "Shadcnblocks",
-    title: "Razom Pay",
-    description: "Razom Pay Logo",
-  },
-  navGroups: [
-    {
-      title: "Overview",
-      defaultOpen: true,
-      items: [
-        {
-          label: "Dashboard",
-          icon: LayoutDashboard,
-          href: "/",
-          isActive: true,
-        },
-        { label: "Tasks", icon: ClipboardList, href: "/" },
-        { label: "Roadmap", icon: BarChart3, href: "/" },
-      ],
-    },
-    {
-      title: "Projects",
-      defaultOpen: true,
-      items: [
-        {
-          label: "Active Projects",
-          icon: Briefcase,
-          href: "/",
-          children: [
-            { label: "Project Alpha", icon: FileText, href: "/" },
-            { label: "Project Beta", icon: FileText, href: "/" },
-            { label: "Project Gamma", icon: FileText, href: "/" },
-          ],
-        },
-        {
-          label: "Archived",
-          icon: Folder,
-          href: "/",
-          children: [
-            { label: "2024 Archive", icon: FileText, href: "/" },
-            { label: "2023 Archive", icon: FileText, href: "/" },
-          ],
-        },
-      ],
-    },
-    {
-      title: "Team",
-      defaultOpen: false,
-      items: [
-        { label: "Members", icon: Users, href: "/" },
-        { label: "Sprints", icon: Clock3, href: "/" },
-        { label: "Approvals", icon: BadgeCheck, href: "/" },
-        { label: "Reviews", icon: Star, href: "/" },
-      ],
-    },
-    {
-      title: "Workspace",
-      defaultOpen: false,
-      items: [
-        { label: "Integrations", icon: Globe2, href: "/" },
-        { label: "Automations", icon: Sparkles, href: "/" },
-      ],
-    },
-  ],
-  footerGroup: {
-    title: "Support",
-    items: [
-      { label: "Help Center", icon: HelpCircle, href: "/" },
-      { label: "Settings", icon: Settings, href: "/" },
-    ],
-  },
-  user: {
-    name: "John Doe",
-    email: "john@example.com",
-    avatar:
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
-  },
-  workspaces: [
-    {
-      id: "1",
-      name: "Shadcnblocks",
-      logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
-      plan: "Enterprise",
-    },
-    {
-      id: "2",
-      name: "Shadcn Templates",
-      logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
-      plan: "Startup",
-    },
-    {
-      id: "3",
-      name: "Shadcn Components",
-      logo: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
-      plan: "Free",
-    },
-  ],
-  activeWorkspace: "1",
+const demoAccount: AccountData = {
+  name: "John Doe",
+  email: "john@example.com",
+  avatar:
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
 };
 
-// Desktop navigation dropdown for each group
-const NavDropdown = ({ group }: { group: NavGroup }) => {
+function isActivePath(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function NavButton({ item, pathname }: { item: NavItem; pathname: string }) {
+  const active = isActivePath(pathname, item.href);
+
+  if (!item.children?.length) {
+    return (
+      <Button
+        variant={active ? "secondary" : "ghost"}
+        className={cn("gap-2", active && "font-medium")}
+        render={<Link href={item.href} className="flex items-center gap-2" />}
+        nativeButton={false}
+      >
+        <item.icon className="size-4" />
+        {item.label}
+      </Button>
+    );
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="ghost" className="gap-1" />}
+        render={
+          <Button
+            variant={active ? "secondary" : "ghost"}
+            className={cn("gap-1", active && "font-medium")}
+          />
+        }
       >
-        {group.title}
+        <item.icon className="size-4" />
+        {item.label}
         <ChevronDown className="size-3" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-48">
-        {group.items.map((item) => {
-          const Icon = item.icon;
+        {item.children.map((child) => {
+          const ChildIcon = child.icon;
+          const childActive = isActivePath(pathname, child.href);
+
           return (
-            <React.Fragment key={item.label}>
-              <DropdownMenuItem
-                render={
-                  <Link href={item.href} className="flex items-center gap-2" />
-                }
-              >
-                <Icon className="size-4" />
-                {item.label}
-              </DropdownMenuItem>
-              {item.children?.map((child) => {
-                const ChildIcon = child.icon;
-                return (
-                  <DropdownMenuItem
-                    key={child.label}
-                    className="pl-6"
-                    render={
-                      <Link
-                        href={child.href}
-                        className="flex items-center gap-2"
-                      />
-                    }
-                  >
-                    <ChildIcon className="size-4" />
-                    {child.label}
-                  </DropdownMenuItem>
-                );
-              })}
-            </React.Fragment>
+            <DropdownMenuItem
+              key={child.label}
+              render={
+                <Link href={child.href} className="flex items-center gap-2" />
+              }
+              className={cn(childActive && "bg-muted font-medium")}
+            >
+              <ChildIcon className="size-4" />
+              {child.label}
+            </DropdownMenuItem>
           );
         })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
 
-// Mobile navigation sheet
-const MobileNav = () => {
+function MobileNav({ pathname }: { pathname: string }) {
   return (
     <Sheet>
       <SheetTrigger
@@ -264,153 +163,150 @@ const MobileNav = () => {
           <SheetTitle className="flex items-center gap-2">
             <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-primary">
               <img
-                src={sidebarData.logo.src}
-                alt={sidebarData.logo.alt}
-                className="size-6 text-primary-foreground invert dark:invert-0"
+                src={appLogo.src}
+                alt={appLogo.alt}
+                className="size-6 invert dark:invert-0"
               />
             </div>
-            {sidebarData.logo.title}
+            {appLogo.title}
           </SheetTitle>
         </SheetHeader>
         <ScrollArea className="min-h-0 flex-1">
           <nav className="flex flex-col gap-4 px-4 py-4">
-            {sidebarData.navGroups.map((group) => (
-              <div key={group.title}>
-                <div className="mb-2 text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                  {group.title}
-                </div>
-                <div className="flex flex-col gap-1">
-                  {group.items.map((item) => {
-                    const Icon = item.icon;
-                    return (
-                      <React.Fragment key={item.label}>
-                        <Link
-                          href={item.href}
-                          className={cn(
-                            "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted",
-                            item.isActive && "bg-muted font-medium",
-                          )}
-                        >
-                          <Icon className="size-4" />
-                          {item.label}
-                        </Link>
-                        {item.children?.map((child) => {
-                          const ChildIcon = child.icon;
-                          return (
-                            <Link
-                              key={child.label}
-                              href={child.href}
-                              className="flex items-center gap-2 rounded-md py-1.5 pr-2 pl-8 text-sm hover:bg-muted"
-                            >
-                              <ChildIcon className="size-4" />
-                              {child.label}
-                            </Link>
-                          );
-                        })}
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-            <Separator />
-            <div>
-              <div className="mb-2 text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                {sidebarData.footerGroup.title}
-              </div>
-              <div className="flex flex-col gap-1">
-                {sidebarData.footerGroup.items.map((item) => {
-                  const Icon = item.icon;
-                  return (
+            <div className="flex flex-col gap-1">
+              {mainNav.map((item) => {
+                const active = isActivePath(pathname, item.href);
+                const Icon = item.icon;
+
+                return (
+                  <React.Fragment key={item.label}>
                     <Link
-                      key={item.label}
                       href={item.href}
-                      className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted"
+                      className={cn(
+                        "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted",
+                        active && "bg-muted font-medium",
+                      )}
                     >
                       <Icon className="size-4" />
                       {item.label}
                     </Link>
-                  );
-                })}
-              </div>
+                    {item.children?.map((child) => {
+                      const ChildIcon = child.icon;
+                      const childActive = isActivePath(pathname, child.href);
+
+                      return (
+                        <Link
+                          key={child.label}
+                          href={child.href}
+                          className={cn(
+                            "flex items-center gap-2 rounded-md py-1.5 pr-2 pl-8 text-sm hover:bg-muted",
+                            childActive && "bg-muted font-medium",
+                          )}
+                        >
+                          <ChildIcon className="size-4" />
+                          {child.label}
+                        </Link>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+            <Separator />
+            <div className="flex flex-col gap-1">
+              {accountItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    className="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-muted"
+                  >
+                    <Icon className="size-4" />
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
           </nav>
         </ScrollArea>
       </SheetContent>
     </Sheet>
   );
-};
+}
 
-// User dropdown
-const NavUser = ({ user }: { user: UserData }) => {
+function AccountMenu({ account }: { account: AccountData }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         render={<Button variant="ghost" className="gap-2 px-2" />}
       >
         <Avatar className="size-8">
-          <AvatarImage src={user.avatar} alt={user.name} />
+          <AvatarImage src={account.avatar} alt={account.name} />
           <AvatarFallback>
-            {user.name
+            {account.name
               .split(" ")
-              .map((n) => n[0])
+              .map((part) => part[0])
               .join("")}
           </AvatarFallback>
         </Avatar>
         <span className="hidden text-sm font-medium md:inline">
-          {user.name}
+          {account.name}
         </span>
         <ChevronsUpDown className="hidden size-4 md:block" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium">{user.name}</p>
-            <p className="text-xs text-muted-foreground">{user.email}</p>
+            <p className="text-sm font-medium">{account.name}</p>
+            <p className="text-xs text-muted-foreground">{account.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <User className="mr-2 size-4" />
-          Account
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="mr-2 size-4" />
-          Log out
-        </DropdownMenuItem>
+        {accountItems.map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <DropdownMenuItem
+              key={item.label}
+              render={<Link href={item.href} className="flex items-center" />}
+            >
+              <Icon className="mr-2 size-4" />
+              {item.label}
+            </DropdownMenuItem>
+          );
+        })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
-};
+}
 
 export function Header() {
+  const pathname = usePathname();
+  const showAccount = pathname !== "/login";
+
   return (
     <header className="sticky top-0 z-50 border-b bg-background">
       <div className="flex h-14 items-center gap-4 px-4 lg:px-6">
-        {/* Mobile menu */}
-        <MobileNav />
+        <MobileNav pathname={pathname} />
 
-        {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-primary">
             <img
-              src={sidebarData.logo.src}
-              alt={sidebarData.logo.alt}
-              className="size-6 text-primary-foreground invert dark:invert-0"
+              src={appLogo.src}
+              alt={appLogo.alt}
+              className="size-6 invert dark:invert-0"
             />
           </div>
-          <span className="font-semibold">{sidebarData.logo.title}</span>
+          <span className="font-semibold">{appLogo.title}</span>
         </Link>
 
-        {/* Desktop navigation */}
         <nav className="ml-4 hidden items-center gap-1 md:flex">
-          {sidebarData.navGroups.map((group) => (
-            <NavDropdown key={group.title} group={group} />
+          {mainNav.map((item) => (
+            <NavButton key={item.label} item={item} pathname={pathname} />
           ))}
         </nav>
 
-        {/* Right side */}
         <div className="ml-auto flex items-center gap-2">
           <div className="relative hidden md:block">
             <Search className="absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -423,7 +319,16 @@ export function Header() {
           <Button variant="ghost" size="icon" className="md:hidden">
             <Search className="size-5" />
           </Button>
-          {sidebarData.user && <NavUser user={sidebarData.user} />}
+          {showAccount ? (
+            <AccountMenu account={demoAccount} />
+          ) : (
+            <Button
+              render={<Link href="/login" className="flex items-center" />}
+              nativeButton={false}
+            >
+              Login
+            </Button>
+          )}
         </div>
       </div>
     </header>
