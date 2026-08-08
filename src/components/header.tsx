@@ -74,7 +74,7 @@ const accountItems: AccountItem[] = [
   // { label: "Initiatives", icon: ClipboardList, href: "/initiatives" },
   // { label: "Contributions", icon: FileText, href: "/contributions" },
   // { label: "Offers", icon: Briefcase, href: "/offers" },
-  { label: "Account", icon: User, href: "/account" },
+  { label: "Profile", icon: User, href: "/profile" },
   { label: "Settings", icon: Settings, href: "/settings" },
   { label: "Log out", icon: LogOut, href: "/login" },
 ];
