@@ -81,8 +81,8 @@ const accountItems: AccountItem[] = [
 
 const appLogo = {
   src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
-  alt: "Razom Pay",
-  title: "Razom Pay",
+  alt: "RazomPay",
+  title: "RazomPay",
 };
 
 function isActivePath(pathname: string, href: string) {
