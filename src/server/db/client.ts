@@ -18,7 +18,7 @@ export const client =
   postgres(connectionString, {
     max: process.env.NODE_ENV === "production" ? 1 : 10,
     idle_timeout: 30,
-    connect_timeout: 5000,
+    connect_timeout: 5,
   });
 
 if (process.env.NODE_ENV === "development") {
