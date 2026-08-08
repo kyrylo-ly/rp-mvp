@@ -1,5 +1,5 @@
+import { signupWithEmailAction } from "@/app/auth-actions";
 import { Login } from "@/components/login";
-import { loginWithEmailAction } from "@/app/auth-actions";
 
 const logo = {
   url: "https://www.shadcnblocks.com",
@@ -8,22 +8,26 @@ const logo = {
   title: "shadcnblocks.com",
 };
 
-type LoginPageProps = {
+type SignupPageProps = {
   searchParams?: Promise<{
     error?: string;
   }>;
 };
 
-export default async function LoginPage({ searchParams }: LoginPageProps) {
+export default async function SignupPage({ searchParams }: SignupPageProps) {
   const params = await searchParams;
   const errorMessage = params?.error;
 
   return (
     <Login
+      mode="signup"
+      heading="Sign up"
       logo={logo}
-      formAction={loginWithEmailAction}
+      buttonText="Create account"
+      signupText="Already have an account?"
+      signupUrl="/login"
+      formAction={signupWithEmailAction}
       errorMessage={errorMessage}
-      signupUrl="/signup"
     />
   );
 }

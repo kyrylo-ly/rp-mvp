@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface LoginProps {
+  mode?: "login" | "signup";
   heading?: string;
   logo: {
     url: string;
@@ -14,13 +15,15 @@ interface LoginProps {
     className?: string;
   };
   buttonText?: string;
-  googleText?: string;
   signupText?: string;
   signupUrl?: string;
+  errorMessage?: string;
+  formAction: (formData: FormData) => Promise<void>;
   className?: string;
 }
 
 const Login = ({
+  mode = "login",
   heading = "Login",
   logo = {
     url: "https://www.shadcnblocks.com",
@@ -30,9 +33,13 @@ const Login = ({
   },
   buttonText = "Login",
   signupText = "Need an account?",
-  signupUrl = "https://shadcnblocks.com",
+  signupUrl = "/signup",
+  errorMessage,
+  formAction,
   className,
 }: LoginProps) => {
+  const isSignup = mode === "signup";
+
   return (
     <section className={cn("h-screen bg-muted", className)}>
       <div className="flex h-full items-center justify-center">
@@ -46,11 +53,34 @@ const Login = ({
               className="h-10 dark:invert"
             />
           </Link>
-          <div className="flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border border-muted bg-background px-6 py-8 shadow-md">
+          <form
+            action={formAction}
+            className="flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border border-muted bg-background px-6 py-8 shadow-md"
+          >
             {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
+            {errorMessage ? (
+              <p className="w-full rounded-md border border-destructive/30 bg-destructive/10 p-2 text-sm text-destructive">
+                {errorMessage}
+              </p>
+            ) : null}
+            {isSignup ? (
+              <div className="flex w-full flex-col gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Name"
+                  className="text-sm"
+                  required
+                />
+              </div>
+            ) : null}
             <div className="flex w-full flex-col gap-2">
-              <Label>Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
+                id="email"
+                name="email"
                 type="email"
                 placeholder="Email"
                 className="text-sm"
@@ -58,8 +88,10 @@ const Login = ({
               />
             </div>
             <div className="flex w-full flex-col gap-2">
-              <Label>Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
+                id="password"
+                name="password"
                 type="password"
                 placeholder="Password"
                 className="text-sm"
@@ -69,7 +101,7 @@ const Login = ({
             <Button type="submit" className="w-full">
               {buttonText}
             </Button>
-          </div>
+          </form>
           <div className="flex justify-center gap-1 text-sm text-muted-foreground">
             <p>{signupText}</p>
             <Link
