@@ -103,8 +103,8 @@ const sidebarData: SidebarData = {
   logo: {
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblocks-logo.svg",
     alt: "Shadcnblocks",
-    title: "Shadcnblocks",
-    description: "Build your app",
+    title: "Razom Pay",
+    description: "Razom Pay Logo",
   },
   navGroups: [
     {
@@ -114,11 +114,11 @@ const sidebarData: SidebarData = {
         {
           label: "Dashboard",
           icon: LayoutDashboard,
-          href: "#",
+          href: "/",
           isActive: true,
         },
-        { label: "Tasks", icon: ClipboardList, href: "#" },
-        { label: "Roadmap", icon: BarChart3, href: "#" },
+        { label: "Tasks", icon: ClipboardList, href: "/" },
+        { label: "Roadmap", icon: BarChart3, href: "/" },
       ],
     },
     {
@@ -128,20 +128,20 @@ const sidebarData: SidebarData = {
         {
           label: "Active Projects",
           icon: Briefcase,
-          href: "#",
+          href: "/",
           children: [
-            { label: "Project Alpha", icon: FileText, href: "#" },
-            { label: "Project Beta", icon: FileText, href: "#" },
-            { label: "Project Gamma", icon: FileText, href: "#" },
+            { label: "Project Alpha", icon: FileText, href: "/" },
+            { label: "Project Beta", icon: FileText, href: "/" },
+            { label: "Project Gamma", icon: FileText, href: "/" },
           ],
         },
         {
           label: "Archived",
           icon: Folder,
-          href: "#",
+          href: "/",
           children: [
-            { label: "2024 Archive", icon: FileText, href: "#" },
-            { label: "2023 Archive", icon: FileText, href: "#" },
+            { label: "2024 Archive", icon: FileText, href: "/" },
+            { label: "2023 Archive", icon: FileText, href: "/" },
           ],
         },
       ],
@@ -150,26 +150,26 @@ const sidebarData: SidebarData = {
       title: "Team",
       defaultOpen: false,
       items: [
-        { label: "Members", icon: Users, href: "#" },
-        { label: "Sprints", icon: Clock3, href: "#" },
-        { label: "Approvals", icon: BadgeCheck, href: "#" },
-        { label: "Reviews", icon: Star, href: "#" },
+        { label: "Members", icon: Users, href: "/" },
+        { label: "Sprints", icon: Clock3, href: "/" },
+        { label: "Approvals", icon: BadgeCheck, href: "/" },
+        { label: "Reviews", icon: Star, href: "/" },
       ],
     },
     {
       title: "Workspace",
       defaultOpen: false,
       items: [
-        { label: "Integrations", icon: Globe2, href: "#" },
-        { label: "Automations", icon: Sparkles, href: "#" },
+        { label: "Integrations", icon: Globe2, href: "/" },
+        { label: "Automations", icon: Sparkles, href: "/" },
       ],
     },
   ],
   footerGroup: {
     title: "Support",
     items: [
-      { label: "Help Center", icon: HelpCircle, href: "#" },
-      { label: "Settings", icon: Settings, href: "#" },
+      { label: "Help Center", icon: HelpCircle, href: "/" },
+      { label: "Settings", icon: Settings, href: "/" },
     ],
   },
   user: {
@@ -392,7 +392,7 @@ export function Header() {
         <MobileNav />
 
         {/* Logo */}
-        <Link href="#" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2">
           <div className="flex aspect-square size-8 items-center justify-center rounded-sm bg-primary">
             <img
               src={sidebarData.logo.src}
