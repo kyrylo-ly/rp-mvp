@@ -37,6 +37,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { signOutAction } from "@/features/auth/server/actions";
 
 type NavItem = {
   label: string;
@@ -76,7 +77,6 @@ const accountItems: AccountItem[] = [
   // { label: "Offers", icon: Briefcase, href: "/offers" },
   { label: "Profile", icon: User, href: "/profile" },
   { label: "Settings", icon: Settings, href: "/settings" },
-  { label: "Log out", icon: LogOut, href: "/login" },
 ];
 
 const appLogo = {
@@ -276,6 +276,13 @@ function AccountMenu({ account }: { account: AccountData }) {
             </DropdownMenuItem>
           );
         })}
+        <DropdownMenuItem
+          key="Log out"
+          render={<form action={signOutAction} className="flex items-center" />}
+        >
+          <LogOut className="mr-2 size-4" />
+          <button type="submit">Log out</button>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
